@@ -1,0 +1,12 @@
+#!/bin/bash
+
+read -p "What file would you like to check?: " file
+
+#while read line
+#do
+#       fileArray+=( $line )
+#done < $file
+
+tr -cs "a-zA-Z'" "[\n*]" < "$file" > filter1.tmp
+cat filter1.tmp | gawk ' { print tolower($1) } ' | sort | uniq -c | sort -bnr > filter2.tmp
+cat filter2.tmp | gawk ' {printf"[%-s]=%3d\n", $2, $1} '
